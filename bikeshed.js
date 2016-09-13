@@ -1,10 +1,9 @@
-var fs = require("fs");
-var request = require('request');
-var spawn = require('child_process').spawn;
-
 var ignoreLocal = false;
 
-function bikeshed() {
+function bikeshed(infile, outfile) {
+  infile = infile || 'Overview.bs';
+  outfile = outfile || 'Overview.html';
+
   return new Promise(bikeshed_cb);
 
   function bikeshed_cb(resolve, reject) {
@@ -22,7 +21,8 @@ function bikeshed() {
   }
 
   function bikeshed_local_cb(resolve, reject) {
-    spawn("bikeshed", [], {
+    var spawn = require('child_process').spawn;
+    spawn("bikeshed", ['spec', infile, outfile], {
       stdio: "inherit"
     }).on("error", function (e) {
       // ENOENT doesn't fire "close" and throws without on("error")
@@ -38,25 +38,35 @@ function bikeshed() {
   }
 
   function bikeshed_online_cb(resolve, reject) {
+    var fs = require("fs");
+    var request = require('request');
     // gulp.watch() kicks in when pipe() creates the file,
     // so write to a temp file and move it.
-    var tmpfile = "~Overview.html";
+    var tmpfile = getTempFileName(outfile);
     request.post({
       url: "http://api.csswg.org/bikeshed/",
       formData: {
-        file: fs.createReadStream("Overview.bs"),
+        file: fs.createReadStream(infile),
       },
     }).on("error", function (err) {
+      fs.unlinkSync(tmpfile);
       reject(err);
     }).pipe(fs.createWriteStream(tmpfile))
     .on("finish", function () {
-      fs.rename(tmpfile, "Overview.html", function (err) {
+      fs.rename(tmpfile, outfile, function (err) {
         if (err)
           reject(err);
         else
           resolve();
       });
     });
+  }
+
+  function getTempFileName(file) {
+    var path = require('path');
+    var parsed = path.parse(file);
+    parsed.base = '~' + parsed.base;
+    return path.format(parsed);
   }
 }
 

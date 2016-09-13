@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 var bikeshed = require('./bikeshed.js');
-bikeshed();
+bikeshed().then(
+  () => {},
+  err => console.log(err));

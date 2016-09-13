@@ -1,11 +1,13 @@
 This package runs [bikeshed] from node.js.
 
-Uses online service if it is not locally installed.
+Uses the online service if it is not locally installed.
 
 ```
 var bikeshed = require('bikeshed');
 
-bikeshed();
+bikeshed().then(
+  () => console.log('done'),
+  err => console.log(err));
 ```
 
 or from gulp:

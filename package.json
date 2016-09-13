@@ -1,6 +1,6 @@
 {
   "name": "bikeshed-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Run bikeshed from node.js",
   "main": "bikeshed.js",
   "scripts": {
@@ -16,9 +16,9 @@
   "author": "Koji Ishii",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kojiishi/bikeshed.js/issues"
+    "url": "https://github.com/kojiishi/bikeshed-js/issues"
   },
-  "homepage": "https://github.com/kojiishi/bikeshed.js#readme",
+  "homepage": "https://github.com/kojiishi/bikeshed-js#readme",
   "dependencies": {
     "request": "^2.74.0"
   }
