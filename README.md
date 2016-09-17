@@ -4,9 +4,8 @@ Uses the online service if it is not locally installed.
 
 ```
 var bikeshed = require('bikeshed');
-
 bikeshed().then(
-  () => console.log('done'),
+  file => console.log('Output: ' + file),
   err => console.log(err));
 ```
 

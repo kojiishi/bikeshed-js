@@ -1,8 +1,10 @@
+const path = require('path');
+
 var ignoreLocal = false;
 
 function bikeshed(infile, outfile) {
   infile = infile || 'Overview.bs';
-  outfile = outfile || 'Overview.html';
+  outfile = outfile || getTargetPath(infile);
 
   return new Promise(bikeshed_cb);
 
@@ -10,8 +12,8 @@ function bikeshed(infile, outfile) {
     if (ignoreLocal)
       return bikeshed_online_cb(resolve, reject);
     bikeshed_local_cb(resolve, function (e) {
-      if (e.code == "ENOENT") { // bikeshed not installed locally.
-        console.log("Local bikeshed not found, use the online service.");
+      if (e.code === "ENOENT") { // bikeshed not installed locally.
+        bikeshed.log("Local bikeshed not found, using the online service.");
         ignoreLocal = true; // prefer online for future calls.
         bikeshed_online_cb(resolve, reject);
         return;
@@ -21,25 +23,26 @@ function bikeshed(infile, outfile) {
   }
 
   function bikeshed_local_cb(resolve, reject) {
-    var spawn = require('child_process').spawn;
+    const spawn = require('child_process').spawn;
     spawn("bikeshed", ['spec', infile, outfile], {
       stdio: "inherit"
     }).on("error", function (e) {
+      bikeshed.log("Local bikeshed error:", e);
       // ENOENT doesn't fire "close" and throws without on("error")
       reject(e);
     }).on("close", function (code) {
       if (code) {
-        console.log("Local bikeshed exited with code:", code);
+        bikeshed.log("Local bikeshed exited with code:", code);
         // No need to reject() because on("error") also fires.
         return;
       }
-      return resolve();
+      return resolve(outfile);
     });
   }
 
   function bikeshed_online_cb(resolve, reject) {
-    var fs = require("fs");
-    var request = require('request');
+    const fs = require("fs");
+    const request = require('request');
     // gulp.watch() kicks in when pipe() creates the file,
     // so write to a temp file and move it.
     var tmpfile = getTempFileName(outfile);
@@ -57,17 +60,25 @@ function bikeshed(infile, outfile) {
         if (err)
           reject(err);
         else
-          resolve();
+          resolve(outfile);
       });
     });
   }
+}
 
-  function getTempFileName(file) {
-    var path = require('path');
-    var parsed = path.parse(file);
-    parsed.base = '~' + parsed.base;
-    return path.format(parsed);
-  }
+function getTargetPath(file) {
+  var parsed = path.parse(file);
+  delete parsed.base;
+  parsed.ext = '.html';
+  return path.format(parsed);
+}
+
+function getTempFileName(file) {
+  var parsed = path.parse(file);
+  parsed.base = '~' + parsed.base;
+  return path.format(parsed);
 }
 
 module.exports = bikeshed;
+module.exports.getTargetPath = getTargetPath;
+module.exports.log = console.log.bind(console);
