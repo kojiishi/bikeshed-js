@@ -3,6 +3,9 @@
   "version": "1.0.2",
   "description": "Run bikeshed from node.js",
   "main": "bikeshed.js",
+  "bin": {
+    "bikeshed-js": "bin/bikeshed-js.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
