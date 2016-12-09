@@ -1,6 +1,6 @@
 {
   "name": "bikeshed-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Run bikeshed from node.js",
   "main": "bikeshed.js",
   "bin": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/kojiishi/bikeshed-js#readme",
   "dependencies": {
+    "minimist": "^1.2.0",
     "request": "^2.74.0"
   }
 }
