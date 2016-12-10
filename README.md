@@ -53,8 +53,8 @@ the output chunks are appended to the array as [Buffer].
 In this case, the Promise resolves to the array.
 
 ```javascript
-console.log(bikeshed('test.bs', []).then(buffers =>
-  Buffer.concat(buffers).toString('utf8')));
+bikeshed('test.bs', []).then(buffers =>
+  Buffer.concat(buffers).toString('utf8'));
 ```
 
 [bikeshed]: https://github.com/tabatkins/bikeshed

@@ -21,16 +21,18 @@ function takeFirstLines(text, count) {
   return lines.slice(0, count).join('\n');
 }
 
-runTests();
+describe('bikeshed utilities', function () {
+  it('getTargetPath', function () {
+    assert.equal(
+      bikeshed.getTargetPath(inFileName),
+      outFileNameExpected);
+  });
+});
 
-function runTests() {
-  describe('bikeshed', function () {
-    it('getTargetPath', function () {
-      assert.equal(
-        bikeshed.getTargetPath(inFileName),
-        outFileNameExpected);
-    });
+runTests(bikeshed, '');
 
+function runTests(bikeshed, suffix) {
+  describe('bikeshed' + suffix, function () {
     it('Process to a file', function () {
       this.timeout(5000);
       return bikeshed(inFileName).then(outFileName => {
@@ -41,6 +43,10 @@ function runTests() {
           takeFirstLines(output, 5),
           takeFirstLines(outputExpected, 5));
         fs.unlinkSync(outFileName);
+
+        if (!suffix && !bikeshed.ignoreLocal) {
+          runTests(bikeshed.online, ' (online)');
+        }
       });
     });
 
@@ -49,6 +55,9 @@ function runTests() {
       let buffers = [];
       return bikeshed(inFileName, buffers).then(result => {
         assert.equal(buffers, result, 'Should return the given array.');
+        assert.notEqual(buffers.length, 0);
+        for (let buffer of buffers)
+          assert(Buffer.isBuffer(buffer));
         let output = Buffer.concat(buffers).toString('utf8');
         assert.equal(
           takeFirstLines(output, 5),
