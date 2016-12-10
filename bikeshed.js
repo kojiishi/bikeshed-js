@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require('path');
 
-let ignoreLocal = true;
+let ignoreLocal = false;
 let log = () => {};
 let debug = () => {};
 // log = debug = console.log.bind(console);
@@ -123,6 +123,7 @@ function saveToFileAsync(stream, outfile) {
 }
 
 module.exports = bikeshed;
-module.exports.getTargetPath = getTargetPath;
-module.exports.log = log;
 module.exports.debug = debug;
+module.exports.getTargetPath = getTargetPath;
+module.exports.ignoreLocal = ignoreLocal;
+module.exports.log = log;

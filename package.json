@@ -4,10 +4,10 @@
   "description": "Run bikeshed from node.js",
   "main": "bikeshed.js",
   "bin": {
-    "bikeshed-js": "bin/bikeshed-js.js"
+    "bikeshed-js": "cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",

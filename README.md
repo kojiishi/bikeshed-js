@@ -2,7 +2,7 @@ This package runs [bikeshed] from node.js.
 
 Uses the online service if it is not locally installed.
 
-```
+```javascript
 var bikeshed = require('bikeshed');
 bikeshed().then(
   file => console.log('Output: ' + file),
@@ -11,7 +11,7 @@ bikeshed().then(
 
 or from gulp:
 
-```
+```javascript
 var bikeshed = require('bikeshed');
 
 gulp.task("bikeshed", function () {
