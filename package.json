@@ -1,6 +1,6 @@
 {
   "name": "bikeshed-js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Run bikeshed from node.js",
   "main": "bikeshed.js",
   "bin": {
