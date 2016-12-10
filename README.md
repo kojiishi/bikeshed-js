@@ -25,6 +25,16 @@ gulp.task("watch", function () {
 });
 ```
 
+## Install
+
+```
+npm -g install bikeshed-js
+```
+or from github:
+```
+npm -g install kojiishi/bikeshed-js
+```
+
 ## Reference
 
 ### `function bikeshed(infile, outfile)`
