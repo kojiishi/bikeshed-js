@@ -47,12 +47,12 @@ class Bikeshed {
         stdio: [process.stdin,
           this.outfile ? process.stdout : 'pipe',
           process.stderr],
-      }).on("error", function (e) {
-        log("Local bikeshed error:", e);
+      }).on("error", error => {
+        log("Local bikeshed error:", error);
         // ENOENT doesn't fire "close" and throws without on("error")
         isRejected = true;
-        reject(e);
-      }).on("close", function (code) {
+        reject(error);
+      }).on("close", code => {
         if (code) {
           log("Local bikeshed exited with code:", code);
           // No need to reject() because on("error") also fires.

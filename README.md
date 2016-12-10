@@ -28,11 +28,11 @@ gulp.task("watch", function () {
 ## Install
 
 ```
-npm -g install bikeshed-js
+npm install bikeshed-js
 ```
 or from github:
 ```
-npm -g install kojiishi/bikeshed-js
+npm install kojiishi/bikeshed-js
 ```
 
 ## Reference
