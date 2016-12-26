@@ -49,9 +49,17 @@ class Bikeshed {
       if (!this.outfile)
         args[2] = '-';
       let child = child_process.spawnSync('bikeshed', args);
+      bikeshed.debug(child);
       if (child.error) {
         bikeshed.log("Local bikeshed error:", child.error, child.stderr);
         reject(child.error);
+        return;
+      }
+      if (child.status) {
+        bikeshed.log("Local bikeshed returned non-zero status:", child.status, child.stdout.toString(), child.stderr.toString());
+        let error = new Error(child.stdout.toString());
+        error.status = child.status;
+        reject(error);
         return;
       }
       if (this.outfile)

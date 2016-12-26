@@ -15,12 +15,12 @@ or from gulp:
 var bikeshed = require('bikeshed');
 
 gulp.task("bikeshed", function () {
-  return bikeshed();
+  return bikeshed('Overview.bs');
 });
 
 gulp.task("watch", function () {
-  gulp.watch("*.bs", function () {
-    bikeshed();
+  gulp.watch("*.bs", function (event) {
+    bikeshed(event.path);
   });
 });
 ```
@@ -30,7 +30,7 @@ gulp.task("watch", function () {
 ```
 npm install bikeshed-js
 ```
-or from github:
+or from [github](https://github.com/kojiishi/bikeshed-js):
 ```
 npm install kojiishi/bikeshed-js
 ```
@@ -43,7 +43,6 @@ Returns a Promise that resolves on the completion
 with the output file path.
 
 The `infile` specifies the [bikeshed] source file path.
-If omitted, `'Overview.bs'` is used.
 
 The `outfile` specifies the output file path.
 If omitted, the extension of `infile` is replaced with `'.html'`.

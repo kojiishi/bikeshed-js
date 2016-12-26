@@ -9,7 +9,7 @@ const argv = require('minimist')(process.argv.slice(2), {
 if (argv.debug) bikeshed.debug = bikeshed.log = console.log.bind(console);
 if (argv.verbose) bikeshed.log = console.log.bind(console);
 if (argv.online) bikeshed.ignoreLocal = true;
-let infile = argv._[0];
+let infile = argv._[0] || 'Overview.bs';
 let outfile = argv._[1];
 if (outfile == '-')
   outfile = [];
